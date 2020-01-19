@@ -1,0 +1,31 @@
+-- Partycja 'Sales Summary'
+-- 1. napisz zapytanie MDX przedstawiające 'Sales Amount' grupując po 'Sales Channels'
+SELECT [Measures].[Sales Amount] ON columns,
+[Sales Channel].[Sales Channel].Members on rows
+FROM [Sales Summary]
+--2. napisz zapytanie MDX przedstawiające 'Gross Profit' w rozbiciu na Produkty 
+SELECT [Measures].[Gross Profit] On columns,
+[Product].[Product].[Product] on rows
+FROM [Sales Summary]
+--3. napisz zapytanie z pkt 2. i pozbądź się pustych wierszy
+SELECT [Measures].[Gross Profit] On columns,
+non empty [Product].[Product].[Product] on rows
+FROM [Sales Summary]
+--4. napisz zapytanie w celu prezentacji 'Sales Amount' we wszystkich kwartałach 2013 roku
+-- zapis w postaci listy elementów
+SELECT [Measures].[Sales Amount] ON columns,
+[Date].[Calendar Quarter of Year].[Calendar Quarter of Year] on rows
+FROM [Sales Summary]
+where [Date].[Calendar].&[2013]
+--5. tak jak pkt 4. - zapis w postaci zakresu 
+SELECT [Measures].[Sales Amount] ON columns,
+[Date].[Calendar Quarter of Year].[Calendar Quarter of Year] on rows
+FROM [Sales Summary]
+where [Date].[Calendar].&[2013]
+--6. wylistuj wartość 'Sales Amount' dla kanału sprzedazy 'Internet' oraz Kategori produktow - Bikes
+SELECT [Measures].[Sales Amount] ON 0,
+(
+[Sales Channel].[Sales Channel].&[Internet],
+[Product].[Category].&[1]
+)on 1
+FROM [Sales Summary]
